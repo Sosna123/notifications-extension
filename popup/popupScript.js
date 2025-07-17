@@ -7,7 +7,7 @@ notificationText.innerText = "notification!!!!!";
 reminderTextInput = document.querySelector("input#reminderText");
 let reminderText = "notification!!!";
 
-const notificationSound = new Audio("./notification.wav");
+let showReminderText = localStorage.getItem("showReminderText");
 
 let reminder = null;
 let waitTime = 0;
@@ -26,43 +26,10 @@ function setReminder() {
     waitTime = Math.trunc(Math.random() * 5000);
     displayWaitTime = waitTime;
 
-    reminder = setTimeout(() => {
-        console.log("???");
-        endReminder();
-    }, waitTime);
+    localStorage.setItem("showReminderText", 0);
+    localStorage.setItem("reminderActive", 1);
+    localStorage.setItem("reminderTime", waitTime);
 }
-
-// triggered when time is up
-function endReminder() {
-    console.log("??????");
-    waitTime = 0;
-    displayWaitTime = 0;
-    notificationHideDiv.style.display = "block";
-
-    let intervalCount = 0;
-    reminder = setInterval(() => {
-        if (intervalCount >= 5) {
-            clearInterval(reminder);
-            return;
-        }
-
-        notificationSound.play();
-        intervalCount++;
-    }, 600);
-}
-
-// update time
-setInterval(() => {
-    if (displayWaitTime <= 0) {
-        timeLeftDiv.innerText = `time left: 0.0 seconds`;
-        return;
-    }
-
-    timeLeftDiv.innerText = `time left: ${(displayWaitTime / 1000).toFixed(
-        1
-    )} seconds`;
-    displayWaitTime -= 100;
-}, 100);
 
 // event listeners for functions
 btn.addEventListener("click", () => {
@@ -79,3 +46,27 @@ if (localStorage.getItem("reminderText").length > 0) {
     reminderText = localStorage.getItem("reminderText");
     reminderTextInput.value = reminderText;
 }
+
+// check all localstorage stuff
+setInterval(() => {
+    showReminderText = !!Number(localStorage.getItem("showReminderText"));
+
+    if (showReminderText) {
+        notificationHideDiv.style.display = "block";
+    } else {
+        notificationHideDiv.style.display = "none";
+    }
+}, 10);
+
+// update display time
+setInterval(() => {
+    if (displayWaitTime <= 0) {
+        timeLeftDiv.innerText = `time left: 0.0 seconds`;
+        return;
+    }
+
+    timeLeftDiv.innerText = `time left: ${(displayWaitTime / 1000).toFixed(
+        1
+    )} seconds`;
+    displayWaitTime -= 100;
+}, 100);

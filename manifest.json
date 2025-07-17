@@ -11,13 +11,17 @@
 
     "content_scripts": [
         {
-            "matches": ["*://*/*"],
-            "js": ["content.js"]
+            "matches": ["*://*/*"]
         }
     ],
 
     "action": {
         "default_popup": "./popup/index.html",
         "default_icon": "icons/icon-48.png"
+    },
+
+    "background": {
+        "scripts": ["backgroundReminder.js"],
+        "type": "module"
     }
 }
