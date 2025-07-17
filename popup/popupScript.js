@@ -1,7 +1,11 @@
-const btn = document.getElementById("btn");
-const timeLeftDiv = document.getElementById("time");
-const notificationDiv = document.getElementById("notification");
-notificationDiv.style.display = "none";
+const btn = document.querySelector("#btn");
+const timeLeftDiv = document.querySelector("#time");
+const notificationHideDiv = document.querySelector("#notificationHide");
+notificationHideDiv.style.display = "none";
+const notificationText = document.querySelector("#notificationText");
+notificationText.innerText = "notification!!!!!";
+reminderTextInput = document.querySelector("input#reminderText");
+let reminderText = "notification!!!";
 
 const notificationSound = new Audio("./notification.wav");
 
@@ -15,7 +19,9 @@ function setReminder() {
         return;
     }
 
-    notificationDiv.style.display = "none";
+    notificationHideDiv.style.display = "none";
+    notificationText.innerText =
+        reminderText.length > 0 ? reminderText : "notification!!!";
 
     waitTime = Math.trunc(Math.random() * 5000);
     displayWaitTime = waitTime;
@@ -26,18 +32,17 @@ function setReminder() {
     }, waitTime);
 }
 
+// triggered when time is up
 function endReminder() {
     console.log("??????");
     waitTime = 0;
     displayWaitTime = 0;
-    notificationDiv.style.display = "block";
+    notificationHideDiv.style.display = "block";
 
     let intervalCount = 0;
     reminder = setInterval(() => {
-        console.log("interval", intervalCount);
-
         if (intervalCount >= 5) {
-            clearInterval(interval);
+            clearInterval(reminder);
             return;
         }
 
@@ -59,6 +64,18 @@ setInterval(() => {
     displayWaitTime -= 100;
 }, 100);
 
+// event listeners for functions
 btn.addEventListener("click", () => {
     setReminder();
 });
+
+reminderTextInput.addEventListener("change", (e) => {
+    reminderText = e.target.value;
+    localStorage.setItem("reminderText", reminderText);
+});
+
+// reminder loading from localStorage
+if (localStorage.getItem("reminderText").length > 0) {
+    reminderText = localStorage.getItem("reminderText");
+    reminderTextInput.value = reminderText;
+}
