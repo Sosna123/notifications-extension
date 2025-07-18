@@ -32,6 +32,11 @@ function setReminder() {
             minutesWaitTimeInput.value * 60 +
             secondsWaitTimeInput.value * 1) *
         1000;
+
+    if (waitTime <= 0) {
+        return;
+    }
+
     displayWaitTime = waitTime;
 
     localStorage.setItem("showReminderText", 0);
