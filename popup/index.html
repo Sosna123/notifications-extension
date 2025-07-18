@@ -15,15 +15,30 @@
                 placeholder="Your reminder text"
                 id="reminderText" />
             <div>
-                <input type="number" id="hoursWaitTime" />
+                <input
+                    type="number"
+                    id="hoursWaitTime"
+                    class="timeInputs"
+                    value="0"
+                    min="0" />
                 <label for="hoursWaitTime">h</label>
-                <input type="number" id="minutesWaitTime" />
+                <input
+                    type="number"
+                    id="minutesWaitTime"
+                    class="timeInputs"
+                    value="0"
+                    min="0" />
                 <label for="minutesWaitTime">min</label>
-                <input type="number" id="secondsWaitTime" />
+                <input
+                    type="number"
+                    id="secondsWaitTime"
+                    class="timeInputs"
+                    value="0"
+                    min="0" />
                 <label for="secondsWaitTime">s</label>
             </div>
-            <button id="btn">set up reminder for some time in future</button>
-            <p id="time">Time left: 0.0</p>
+            <button id="btn">Set up reminder</button>
+            <p id="time">Time left: 0.0s</p>
         </div>
 
         <div id="notification">

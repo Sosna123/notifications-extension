@@ -8,14 +8,14 @@ body {
 }
 
 #main {
-    height: 25vh;
+    height: 35vh;
     width: 100%;
     padding-top: 20px;
     background-color: #37474F;
 }
 
 #notification {
-    height: 75vh;
+    height: 65vh;
     width: 100%;
     background-color: #546E7A;
 }
@@ -30,4 +30,22 @@ h3#notificationText {
     text-align: center;
     font-weight: normal;
     font-size: 32px;
+}
+
+.timeInputs {
+    width: 50px;
+}
+
+#btn {
+    width: 100px;
+    height: 50px;
+    background-color: #78909C;
+    color: white;
+    margin: 10px;
+    border-radius: 5px;
+    border: 2px solid black;
+}
+
+#btn:active {
+    background-color: #506874;
 }

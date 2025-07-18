@@ -1,15 +1,15 @@
 const btn = document.querySelector("#btn");
 const timeLeftDiv = document.querySelector("#time");
+const hoursWaitTimeInput = document.querySelector("#hoursWaitTime");
+const minutesWaitTimeInput = document.querySelector("#minutesWaitTime");
+const secondsWaitTimeInput = document.querySelector("#secondsWaitTime");
+
 const notificationHideDiv = document.querySelector("#notificationHide");
 notificationHideDiv.style.display = "none";
 const notificationText = document.querySelector("#notificationText");
 notificationText.innerText = "notification!!!!!";
 reminderTextInput = document.querySelector("input#reminderText");
 let reminderText = "notification!!!";
-
-const hoursWaitTimeInput = document.querySelector("#hoursWaitTime");
-const minutesWaitTimeInput = document.querySelector("#minutesWaitTime");
-const secondsWaitTimeInput = document.querySelector("#secondsWaitTime");
 
 let showReminderText = localStorage.getItem("showReminderText");
 
@@ -19,7 +19,7 @@ let displayWaitTime = 0;
 
 // set reminder
 function setReminder() {
-    if (waitTime != 0) {
+    if (Number(localStorage.getItem("reminderActive"))) {
         return;
     }
 
@@ -51,7 +51,10 @@ reminderTextInput.addEventListener("change", (e) => {
 });
 
 // reminder loading from localStorage
-if (localStorage.getItem("reminderText").length > 0) {
+if (
+    localStorage.getItem("reminderText") != null &&
+    localStorage.getItem("reminderText").length > 0
+) {
     reminderText = localStorage.getItem("reminderText");
     reminderTextInput.value = reminderText;
 }
@@ -75,12 +78,28 @@ setInterval(() => {
     displayWaitTime = localStorage.getItem("reminderTimeLeft");
 
     if (displayWaitTime <= 0) {
-        timeLeftDiv.innerText = `time left: 0.0 seconds`;
+        timeLeftDiv.innerText = `Time left: 0.0s`;
         return;
     }
 
-    console.log("displayWaitTime", displayWaitTime);
-    timeLeftDiv.innerText = `time left: ${(displayWaitTime / 1000).toFixed(
+    timeLeftDiv.innerText = `Time left: ${(displayWaitTime / 1000).toFixed(
         1
-    )} seconds`;
+    )}s`;
 }, 100);
+
+// create localstorage data if it doesn't exist
+if (localStorage.getItem("reminderActive") === null) {
+    localStorage.setItem("reminderActive", 0);
+}
+if (localStorage.getItem("reminderText") === null) {
+    localStorage.setItem("reminderText", "notification!!!");
+}
+if (localStorage.getItem("reminderTime") === null) {
+    localStorage.setItem("reminderTime", 0);
+}
+if (localStorage.getItem("reminderTimeLeft") === null) {
+    localStorage.setItem("reminderTimeLeft", 0);
+}
+if (localStorage.getItem("showReminderText") === null) {
+    localStorage.setItem("showReminderText", 0);
+}

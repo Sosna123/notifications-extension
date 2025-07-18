@@ -3,6 +3,7 @@ let time = localStorage.getItem("reminderTime");
 let timeout = null;
 let intervalTimeLeft = null;
 let reminder = null;
+
 // check all localstorage stuff
 setInterval(() => {
     running = !!Number(localStorage.getItem("reminderActive"));
@@ -14,29 +15,28 @@ setInterval(() => {
 
         console.log("bg set reminder");
         timeout = setTimeout(() => {
-            console.log("bg reminder triggered");
             endReminder();
         }, time);
 
         intervalTimeLeft = setInterval(() => {
-            if (running && time > 0) {
-                let timeLeft = localStorage.getItem("reminderTimeLeft");
-                localStorage.setItem("reminderTimeLeft", timeLeft - 10);
-            } else {
+            let timeLeft = localStorage.getItem("reminderTimeLeft");
+            localStorage.setItem("reminderTimeLeft", timeLeft - 10);
+            if (timeLeft <= 0) {
                 clearInterval(intervalTimeLeft);
+                localStorage.setItem("reminderTimeLeft", 0);
             }
         }, 10);
     }
 }, 10);
 
 function endReminder() {
-    console.log("bg reminder ended");
     timeout = null;
+    clearInterval(intervalTimeLeft);
 
-    localStorage.setItem("showReminderText", 1);
     localStorage.setItem("reminderActive", 0);
     localStorage.setItem("reminderTime", 0);
     localStorage.setItem("reminderTimeLeft", 0);
+    localStorage.setItem("showReminderText", 1);
 
     let intervalCount = 0;
     reminder = setInterval(() => {
@@ -47,5 +47,5 @@ function endReminder() {
 
         new Audio("./notification.wav").play();
         intervalCount++;
-    }, 600);
+    }, 500);
 }
