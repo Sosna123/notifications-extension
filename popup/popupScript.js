@@ -7,6 +7,10 @@ notificationText.innerText = "notification!!!!!";
 reminderTextInput = document.querySelector("input#reminderText");
 let reminderText = "notification!!!";
 
+const hoursWaitTimeInput = document.querySelector("#hoursWaitTime");
+const minutesWaitTimeInput = document.querySelector("#minutesWaitTime");
+const secondsWaitTimeInput = document.querySelector("#secondsWaitTime");
+
 let showReminderText = localStorage.getItem("showReminderText");
 
 let reminder = null;
@@ -23,12 +27,17 @@ function setReminder() {
     notificationText.innerText =
         reminderText.length > 0 ? reminderText : "notification!!!";
 
-    waitTime = Math.trunc(Math.random() * 5000);
+    waitTime =
+        (hoursWaitTimeInput.value * 36000 +
+            minutesWaitTimeInput.value * 60 +
+            secondsWaitTimeInput.value * 1) *
+        1000;
     displayWaitTime = waitTime;
 
     localStorage.setItem("showReminderText", 0);
     localStorage.setItem("reminderActive", 1);
     localStorage.setItem("reminderTime", waitTime);
+    localStorage.setItem("reminderTimeLeft", waitTime);
 }
 
 // event listeners for functions
@@ -51,6 +60,9 @@ if (localStorage.getItem("reminderText").length > 0) {
 setInterval(() => {
     showReminderText = !!Number(localStorage.getItem("showReminderText"));
 
+    notificationText.innerText =
+        reminderText.length > 0 ? reminderText : "notification!!!";
+
     if (showReminderText) {
         notificationHideDiv.style.display = "block";
     } else {
@@ -60,13 +72,15 @@ setInterval(() => {
 
 // update display time
 setInterval(() => {
+    displayWaitTime = localStorage.getItem("reminderTimeLeft");
+
     if (displayWaitTime <= 0) {
         timeLeftDiv.innerText = `time left: 0.0 seconds`;
         return;
     }
 
+    console.log("displayWaitTime", displayWaitTime);
     timeLeftDiv.innerText = `time left: ${(displayWaitTime / 1000).toFixed(
         1
     )} seconds`;
-    displayWaitTime -= 100;
 }, 100);
