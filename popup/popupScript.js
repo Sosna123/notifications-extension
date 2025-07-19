@@ -8,7 +8,7 @@ const notificationHideDiv = document.querySelector("#notificationHide");
 notificationHideDiv.style.display = "none";
 const notificationText = document.querySelector("#notificationText");
 notificationText.innerText = "notification!!!!!";
-reminderTextInput = document.querySelector("input#reminderText");
+let reminderTextInput = document.querySelector("input#reminderText");
 let reminderText = "notification!!!";
 
 let showReminderText = localStorage.getItem("showReminderText");
@@ -83,14 +83,14 @@ setInterval(() => {
     displayWaitTime = localStorage.getItem("reminderTimeLeft");
 
     if (displayWaitTime <= 0) {
-        timeLeftDiv.innerText = `Time left: 0.0s`;
+        timeLeftDiv.innerText = `Time left: 0s`;
         return;
     }
 
     timeLeftDiv.innerText = `Time left: ${(displayWaitTime / 1000).toFixed(
-        1
+        0
     )}s`;
-}, 100);
+}, 50);
 
 // create localstorage data if it doesn't exist
 if (localStorage.getItem("reminderActive") === null) {

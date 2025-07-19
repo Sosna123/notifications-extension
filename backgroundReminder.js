@@ -14,18 +14,19 @@ setInterval(() => {
         localStorage.setItem("reminderActive", 1);
 
         console.log("bg set reminder");
+        console.log(time);
         timeout = setTimeout(() => {
             endReminder();
+            clearInterval(intervalTimeLeft);
+            localStorage.setItem("reminderTimeLeft", 0);
         }, time);
 
         intervalTimeLeft = setInterval(() => {
-            let timeLeft = localStorage.getItem("reminderTimeLeft");
-            localStorage.setItem("reminderTimeLeft", timeLeft - 10);
-            if (timeLeft <= 0) {
-                clearInterval(intervalTimeLeft);
-                localStorage.setItem("reminderTimeLeft", 0);
-            }
-        }, 10);
+            localStorage.setItem(
+                "reminderTimeLeft",
+                localStorage.getItem("reminderTimeLeft") - 1000
+            );
+        }, 1000);
     }
 }, 10);
 
