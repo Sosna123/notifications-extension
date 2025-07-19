@@ -43,6 +43,11 @@ function setReminder() {
     localStorage.setItem("reminderActive", 1);
     localStorage.setItem("reminderTime", waitTime);
     localStorage.setItem("reminderTimeLeft", waitTime);
+
+    browser.runtime.sendMessage({
+        type: "setReminder",
+        time: waitTime,
+    });
 }
 
 // event listeners for functions
@@ -64,19 +69,14 @@ if (
     reminderTextInput.value = reminderText;
 }
 
-// check all localstorage stuff
-setInterval(() => {
-    showReminderText = !!Number(localStorage.getItem("showReminderText"));
-
-    notificationText.innerText =
-        reminderText.length > 0 ? reminderText : "notification!!!";
-
-    if (showReminderText) {
+browser.runtime.onMessage.addListener((message) => {
+    if (message.type === "endReminder") {
+        notificationText.innerText =
+            reminderText.length > 0 ? reminderText : "notification!!!";
         notificationHideDiv.style.display = "block";
-    } else {
-        notificationHideDiv.style.display = "none";
+        localStorage.setItem("showReminderText", 1);
     }
-}, 10);
+});
 
 // update display time
 setInterval(() => {
