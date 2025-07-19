@@ -13,8 +13,6 @@ browser.runtime.onMessage.addListener((message) => {
             localStorage.setItem("showReminderText", 0);
             localStorage.setItem("reminderActive", 1);
 
-            console.log("bg set reminder");
-            console.log(time);
             timeout = setTimeout(() => {
                 endReminder();
                 clearInterval(intervalTimeLeft);
@@ -28,6 +26,7 @@ browser.runtime.onMessage.addListener((message) => {
                 );
 
                 // only here to make the browser keep background script alive
+                // generates a lot of errors but it works and i dont know how to hide it without making it break
                 browser.runtime.sendMessage({ type: "updateTimeLeft" });
             }, 1000);
         }

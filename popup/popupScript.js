@@ -78,8 +78,7 @@ browser.runtime.onMessage.addListener((message) => {
     }
 });
 
-// update display time
-setInterval(() => {
+function changeTime() {
     displayWaitTime = localStorage.getItem("reminderTimeLeft");
 
     if (displayWaitTime <= 0) {
@@ -90,6 +89,11 @@ setInterval(() => {
     timeLeftDiv.innerText = `Time left: ${(displayWaitTime / 1000).toFixed(
         0
     )}s`;
+}
+
+// update display time
+setInterval(() => {
+    changeTime();
 }, 50);
 
 // create localstorage data if it doesn't exist
@@ -108,3 +112,13 @@ if (localStorage.getItem("reminderTimeLeft") === null) {
 if (localStorage.getItem("showReminderText") === null) {
     localStorage.setItem("showReminderText", 0);
 }
+
+// only for testing
+const removeLocalBtn = document.querySelector("#removeLocal");
+removeLocalBtn.addEventListener("click", () => {
+    localStorage.removeItem("reminderActive");
+    localStorage.removeItem("reminderText");
+    localStorage.removeItem("reminderTime");
+    localStorage.removeItem("reminderTimeLeft");
+    localStorage.removeItem("showReminderText");
+});
